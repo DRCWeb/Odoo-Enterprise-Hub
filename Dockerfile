@@ -5,9 +5,10 @@ FROM odoo:${ODOO_VERSION}
 # Configurar variables
 ENV OE_ADDONS_PATH="/mnt/enterprise"
 
-# Instalar dependencias necesarias (corrigiendo error de apt-get)
+# Actualizar repositorios e instalar dependencias necesarias
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    git ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
