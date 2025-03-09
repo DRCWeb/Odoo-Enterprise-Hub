@@ -5,8 +5,11 @@ FROM odoo:${ODOO_VERSION}
 # Configurar variables
 ENV OE_ADDONS_PATH="/mnt/enterprise"
 
-# Instalar dependencias necesarias
-RUN apt-get update && apt-get install -y git
+# Instalar dependencias necesarias (corrigiendo error de apt-get)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Agregar el token de GitHub para clonar Odoo Enterprise
 ARG GH_PAT_ODDO
