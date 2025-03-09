@@ -2,6 +2,9 @@
 ARG ODOO_VERSION=15.0
 FROM odoo:${ODOO_VERSION}
 
+# Cambiar a usuario root para instalación de paquetes
+USER root
+
 # Configurar variables
 ENV OE_ADDONS_PATH="/mnt/enterprise"
 
@@ -11,6 +14,9 @@ RUN apt-get update && \
     git ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Regresar a usuario Odoo para ejecución segura
+USER odoo
 
 # Agregar el token de GitHub para clonar Odoo Enterprise
 ARG GH_PAT_ODDO
