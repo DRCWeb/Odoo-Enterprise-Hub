@@ -1,0 +1,28 @@
+name: Build and Publish Odoo Enterprise Image
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🛠️ Clonar Repositorio
+      uses: actions/checkout@v2
+
+    - name: 🔑 Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
+
+    - name: 🏗️ Construir y Publicar Imagen Docker
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: dayronromero/odoo-enterprise:16.0
+        build-args: |
+          GH_PAT_ODDO=${{ secrets.GH_PAT_ODDO }}
