@@ -8,6 +8,9 @@ USER root
 # Configurar variables
 ENV OE_ADDONS_PATH="/mnt/enterprise"
 
+# Asegurar permisos para clonar en /mnt/enterprise
+RUN mkdir -p /mnt/enterprise && chown odoo:odoo /mnt/enterprise
+
 # Actualizar repositorios e instalar dependencias necesarias
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
